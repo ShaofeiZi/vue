@@ -35,6 +35,13 @@ const sharedPropertyDefinition = {
   set: noop
 }
 
+/**
+ * 通过传入的方法  代理数据
+ * @param target 要代理的
+ * @param sourceKey 要修改的
+ * @param key 将被改的
+ * https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
+ */
 export function proxy (target: Object, sourceKey: string, key: string) {
   sharedPropertyDefinition.get = function proxyGetter () {
     return this[sourceKey][key]
@@ -108,7 +115,7 @@ function initProps (vm: Component, propsOptions: Object) {
   }
   toggleObserving(true)
 }
-
+// 通过这个方法数据和VM挂一起
 function initData (vm: Component) {
   let data = vm.$options.data
   data = vm._data = typeof data === 'function'
@@ -144,6 +151,7 @@ function initData (vm: Component) {
         vm
       )
     } else if (!isReserved(key)) {
+      // 具体的
       proxy(vm, `_data`, key)
     }
   }
@@ -329,7 +337,7 @@ export function stateMixin (Vue: Class<Component>) {
   }
   Object.defineProperty(Vue.prototype, '$data', dataDef)
   Object.defineProperty(Vue.prototype, '$props', propsDef)
-
+  // 挂方法
   Vue.prototype.$set = set
   Vue.prototype.$delete = del
 
