@@ -3,12 +3,12 @@
 import config from 'core/config'
 import { warn, cached } from 'core/util/index'
 import { mark, measure } from 'core/util/perf'
-
+// 导入 运行时 的 Vue
 import Vue from './runtime/index'
 import { query } from './util/index'
 import { compileToFunctions } from './compiler/index'
 import { shouldDecodeNewlines, shouldDecodeNewlinesForHref } from './util/compat'
-
+// 根据 id 获取元素的 innerHTML
 const idToTemplate = cached(id => {
   const el = query(id)
   return el && el.innerHTML
@@ -92,6 +92,7 @@ Vue.prototype.$mount = function (
 /**
  * Get outerHTML of elements, taking care
  * of SVG elements in IE as well.
+ * 获取元素的 outerHTML
  */
 function getOuterHTML (el: Element): string {
   if (el.outerHTML) {
