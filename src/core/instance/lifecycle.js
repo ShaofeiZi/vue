@@ -141,6 +141,7 @@ export function mountComponent (
     vm.$options.render = createEmptyVNode
     if (process.env.NODE_ENV !== 'production') {
       /* istanbul ignore if */
+      // 用了runtime-only 版本  然后 定义了一个模板  但是第一个字符不是'#' 说明 模板没编译
       if ((vm.$options.template && vm.$options.template.charAt(0) !== '#') ||
         vm.$options.el || el) {
         warn(
@@ -150,6 +151,7 @@ export function mountComponent (
           vm
         )
       } else {
+        // 没有render函数没模板 GG
         warn(
           'Failed to mount component: template or render function not defined.',
           vm
@@ -161,6 +163,7 @@ export function mountComponent (
 
   let updateComponent
   /* istanbul ignore if */
+  // 性能埋点 流程无关
   if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
     updateComponent = () => {
       const name = vm._name

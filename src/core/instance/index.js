@@ -16,7 +16,7 @@ function Vue (options) {
   }
   this._init(options)
 }
-
+ // 每个都是往VUE原型上挂载方法 具体方法可以进去看
 initMixin(Vue)
 stateMixin(Vue)
 eventsMixin(Vue)

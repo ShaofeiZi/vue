@@ -13,7 +13,8 @@ const idToTemplate = cached(id => {
   const el = query(id)
   return el && el.innerHTML
 })
-
+// 重写挂载方法
+// vue/src/platforms/web/runtime/index.js  37行为公共挂载方法
 const mount = Vue.prototype.$mount
 Vue.prototype.$mount = function (
   el?: string | Element,
@@ -22,6 +23,7 @@ Vue.prototype.$mount = function (
   el = el && query(el)
 
   /* istanbul ignore if */
+  // 如果返回的EL是body或者HTML 就报错 不能直接挂载在这两个上面 因为会直接覆盖
   if (el === document.body || el === document.documentElement) {
     process.env.NODE_ENV !== 'production' && warn(
       `Do not mount Vue to <html> or <body> - mount to normal elements instead.`
@@ -32,6 +34,7 @@ Vue.prototype.$mount = function (
   const options = this.$options
   // resolve template/el and convert to render function
   if (!options.render) {
+    // 获取模板
     let template = options.template
     if (template) {
       if (typeof template === 'string') {
@@ -56,6 +59,7 @@ Vue.prototype.$mount = function (
     } else if (el) {
       template = getOuterHTML(el)
     }
+    // 渲染模板
     if (template) {
       /* istanbul ignore if */
       if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
@@ -78,6 +82,7 @@ Vue.prototype.$mount = function (
       }
     }
   }
+  // 最终都是调用这个
   return mount.call(this, el, hydrating)
 }
 

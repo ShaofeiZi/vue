@@ -16,7 +16,14 @@ import {
   mergeOptions,
   defineReactive
 } from '../util/index'
+import KeepAlive from "../components/keep-alive";
 
+/**
+ * 挂载全局API
+ * 具体可以看
+ * https://vuefe.cn/v2/api/#%E5%85%A8%E5%B1%80-API
+ * @param Vue
+ */
 export function initGlobalAPI (Vue: GlobalAPI) {
   // config
   const configDef = {}
@@ -46,6 +53,12 @@ export function initGlobalAPI (Vue: GlobalAPI) {
   Vue.nextTick = nextTick
 
   Vue.options = Object.create(null)
+  /**
+   * 定义全局的方法 先定义为空
+   *   'component',
+   *   'directive',
+   *   'filter'
+   */
   ASSET_TYPES.forEach(type => {
     Vue.options[type + 's'] = Object.create(null)
   })
@@ -53,11 +66,17 @@ export function initGlobalAPI (Vue: GlobalAPI) {
   // this is used to identify the "base" constructor to extend all plain-object
   // components with in Weex's multi-instance scenarios.
   Vue.options._base = Vue
-
+  // builtInComponents是一个内置组件   目前就导出了  KeepAlive
   extend(Vue.options.components, builtInComponents)
-
-  initUse(Vue)
-  initMixin(Vue)
-  initExtend(Vue)
+  // 继续挂载全局方法
+  initUse(Vue) // Vue.use
+  initMixin(Vue) // Vue.mixin
+  initExtend(Vue) //  Vue.extend
+  /**
+   * 定义全局的方法 后定义为具体方法
+   *   'component',
+   *   'directive',
+   *   'filter'
+   */
   initAssetRegisters(Vue)
 }
