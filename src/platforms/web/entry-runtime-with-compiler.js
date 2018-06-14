@@ -16,10 +16,12 @@ const idToTemplate = cached(id => {
 // 重写挂载方法
 // vue/src/platforms/web/runtime/index.js  37行为公共挂载方法
 const mount = Vue.prototype.$mount
+// 缓存mount方法 方便最后调用  因为runtime only版本没有这块逻辑 所以得加点render
 Vue.prototype.$mount = function (
   el?: string | Element,
   hydrating?: boolean
 ): Component {
+  // 去获取对应的DOM
   el = el && query(el)
 
   /* istanbul ignore if */
@@ -33,6 +35,7 @@ Vue.prototype.$mount = function (
 
   const options = this.$options
   // resolve template/el and convert to render function
+  // 处理模板templete，编译成render函数，render不存在的时候才会编译template，否则优先使用render
   if (!options.render) {
     // 获取模板
     let template = options.template

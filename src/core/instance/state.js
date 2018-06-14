@@ -319,11 +319,14 @@ export function stateMixin (Vue: Class<Component>) {
   // flow somehow has problems with directly declared definition object
   // when using Object.defineProperty, so we have to procedurally build up
   // the object here.
+  // $data和$props获取方法的定义
+  // 可以看下 如果用 js 实现一个只读的属性
   const dataDef = {}
   dataDef.get = function () { return this._data }
   const propsDef = {}
   propsDef.get = function () { return this._props }
   if (process.env.NODE_ENV !== 'production') {
+    // 生产环境不许修改
     dataDef.set = function (newData: Object) {
       warn(
         'Avoid replacing instance root $data. ' +

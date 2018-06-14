@@ -83,12 +83,14 @@ export default ({
   /**
    * Check if a tag is reserved so that it cannot be registered as a
    * component. This is platform-dependent and may be overwritten.
+   * 这个配置的是与平台有关的，很可能被覆盖掉
    */
   isReservedTag: no,
 
   /**
    * Check if an attribute is reserved so that it cannot be used as a component
    * prop. This is platform-dependent and may be overwritten.
+   * 这个配置的是与平台有关的，很可能被覆盖掉
    */
   isReservedAttr: no,
 

@@ -25,15 +25,37 @@ Vue.config.isReservedTag = isReservedTag
 Vue.config.isReservedAttr = isReservedAttr
 Vue.config.getTagNamespace = getTagNamespace
 Vue.config.isUnknownElement = isUnknownElement
-
+/* 安装特定平台运行时的指令和组件
+ * Vue.options = {
+  components: {
+    KeepAlive
+  },
+  directives: Object.create(null),
+  filters: Object.create(null),
+  _base: Vue
+}*/
 // install platform runtime directives & components
 extend(Vue.options.directives, platformDirectives)
 extend(Vue.options.components, platformComponents)
-
+/* 安装完
+Vue.options = {
+  components: {
+    KeepAlive,
+    Transition,
+    TransitionGroup
+  },
+  directives: {
+    model,
+    show
+  },
+  filters: Object.create(null),
+  _base: Vue
+}*/
 // install platform patch function
 Vue.prototype.__patch__ = inBrowser ? patch : noop
 
 // public mount method
+// 初始化mount
 Vue.prototype.$mount = function (
   el?: string | Element,
   hydrating?: boolean

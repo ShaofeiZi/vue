@@ -16,7 +16,6 @@ import {
   mergeOptions,
   defineReactive
 } from '../util/index'
-import KeepAlive from "../components/keep-alive";
 
 /**
  * 挂载全局API
@@ -25,7 +24,7 @@ import KeepAlive from "../components/keep-alive";
  * @param Vue
  */
 export function initGlobalAPI (Vue: GlobalAPI) {
-  // config
+  // config 只读哦
   const configDef = {}
   configDef.get = () => config
   if (process.env.NODE_ENV !== 'production') {
@@ -51,14 +50,18 @@ export function initGlobalAPI (Vue: GlobalAPI) {
   Vue.set = set
   Vue.delete = del
   Vue.nextTick = nextTick
-
+  // 空对象  原型都是空 233
   Vue.options = Object.create(null)
   /**
    * 定义全局的方法 先定义为空
    *   'component',
    *   'directive',
    *   'filter'
+   *
    */
+  //   components: Object.create(null),
+  //   directives: Object.create(null),
+  //   filters: Object.create(null),
   ASSET_TYPES.forEach(type => {
     Vue.options[type + 's'] = Object.create(null)
   })
@@ -68,6 +71,17 @@ export function initGlobalAPI (Vue: GlobalAPI) {
   Vue.options._base = Vue
   // builtInComponents是一个内置组件   目前就导出了  KeepAlive
   extend(Vue.options.components, builtInComponents)
+  /**
+   * 现在大概是这样的
+   * Vue.options = {
+	 *  components: {
+	 *      	KeepAlive
+   *    },
+	 *  directives: Object.create(null),
+	 *  filters: Object.create(null),
+	 *  _base: Vue
+   *  }
+   */
   // 继续挂载全局方法
   initUse(Vue) // Vue.use
   initMixin(Vue) // Vue.mixin

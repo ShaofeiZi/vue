@@ -43,6 +43,10 @@ export function updateComponentListeners (
   target = undefined
 }
 
+/**
+ * 很好的观察者模式的栗子
+ * @param Vue
+ */
 export function eventsMixin (Vue: Class<Component>) {
   const hookRE = /^hook:/
   Vue.prototype.$on = function (event: string | Array<string>, fn: Function): Component {
@@ -55,6 +59,7 @@ export function eventsMixin (Vue: Class<Component>) {
       (vm._events[event] || (vm._events[event] = [])).push(fn)
       // optimize hook:event cost by using a boolean flag marked at registration
       // instead of a hash lookup
+      // 小优化点
       if (hookRE.test(event)) {
         vm._hasHookEvent = true
       }
